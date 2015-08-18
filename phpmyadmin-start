@@ -1,0 +1,5 @@
+#!/bin/sh
+
+sed -i \
+    -e "s|\$PMA_SECRET|$PMA_SECRET|g" \
+    /var/phpmyadmin/config.inc.php

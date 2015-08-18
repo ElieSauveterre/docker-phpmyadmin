@@ -1,15 +1,8 @@
 FROM phusion/baseimage:0.9.16
 MAINTAINER Elie Sauveterre <contact@eliesauveterre.com>
 
-#ENV PMA_SECRET          blowfish_secret
-#ENV PMA_USERNAME        pma
-#ENV PMA_PASSWORD        password
-#ENV MYSQL_USERNAME      admin
-#ENV MYSQL_PASSWORD      password
-
+ENV PMA_SECRET       blowfish_secret
 ENV PHPMYADMIN_VERSION 4.4.9
-#ENV MAX_UPLOAD "50M"
-
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -21,7 +14,11 @@ RUN wget https://files.phpmyadmin.net/phpMyAdmin/${PHPMYADMIN_VERSION}/phpMyAdmi
  && rm /phpMyAdmin-${PHPMYADMIN_VERSION}-english.tar.bz2 \
  && mv /phpMyAdmin-${PHPMYADMIN_VERSION}-english /var/phpmyadmin
 
+ADD config.inc.php /var/phpmyadmin/
+ADD phpmyadmin-start /usr/local/bin/
+
+RUN chmod +x /usr/local/bin/phpmyadmin-start
 
 VOLUME ["/var/phpmyadmin"]
 
-CMD ["true"]
+CMD phpmyadmin-start
